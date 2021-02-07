@@ -1,33 +1,25 @@
 import React, { useState } from "react";
 import { FormControl, Container, TextField, Button } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
-import axios from "axios";
+import { addTodos, updateTodos } from "../services/services";
 
-export default function AddTodo({todos, setTodos}) {
+export default function AddTodo({ todos, setTodos }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const onSubmit = async (event) => {
-    console.log(title, description);
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/todos",
-        {
-          title,
-          description,
-          isCompleted: false,
-        },
-        {
-          headers: {
-            "x-auth-token": localStorage.getItem("token"),
-          },
-        }
-      );
-      setTodos(todos, response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    const body = {
+      title,
+      description,
+      isCompleted: false,
+    };
+    addTodos(body)
+      .then((todo) => {
+        setTodos(todos, todo);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

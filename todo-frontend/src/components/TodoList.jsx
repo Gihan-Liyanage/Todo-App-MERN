@@ -1,5 +1,5 @@
 import React from "react";
-import AddTodo from "../components/AddTodo";
+import AddTodo from "./AddTodo";
 import Todo from "../components/Todo";
 
 export default function TodoList({ todos, setTodos }) {

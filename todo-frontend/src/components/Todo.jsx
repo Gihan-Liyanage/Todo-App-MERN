@@ -1,92 +1,92 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography, ButtonGroup, Button } from '@material-ui/core';
-import { Create, Delete, CheckCircle } from '@material-ui/icons';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { deleteTodo } from '../services/services';
-
-import UpdateWindow from './UpdateWindow';
-
-// import moment from "moment";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import { Typography, ButtonGroup, Button } from "@material-ui/core";
+import { Create, Delete, CheckCircle } from "@material-ui/icons";
+import { removeTodos, completeTodos, updateTodos } from "../services/services";
+import { currentDate } from "../utils/currentDate";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles({
   todoStyle: {
-    margin: '20px auto',
-    padding: '20px',
-    border: '2px solid #bdbdbd',
-    borderRadius: '9px',
-    display: 'flex',
-    justifyContent: 'space-between',
+    margin: "20px auto",
+    padding: "20px",
+    border: "2px solid #bdbdbd",
+    borderRadius: "9px",
+    display: "flex",
+    justifyContent: "space-between",
   },
   moreStyle: {
-    color: '#8f8f8f',
+    color: "#8f8f8f",
   },
   isComplete: {
-    color: 'green',
+    color: "green",
   },
   checked: {
-    textDecoration: 'line-through',
+    textDecoration: "line-through",
   },
 });
 
 const Todo = ({ todo, setTodos, todos }) => {
-  const [open, setOpen] = React.useState(false);
   const classes = useStyles();
+  const history = useHistory();
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState(todo.title);
+  const [description, setDescription] = useState(todo.description);
 
   const handleOnUpdateClick = (id) => {
     setOpen(true);
-    console.log(id);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
   };
 
   const handleClose = (id) => {
-    // try {
-    //   const url = "http://localhost:5000/api/todos/" + id;
-    //   const response = await axios.put(url, ).data;
-    //   console.log(response);
-    //   const selectedTodos = todos.filter((todo) => todo._id !== id);
-    //   setTodos(selectedTodos);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    // setOpen(false);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
+    const body = {
+      title: title,
+      description: description,
+      isCompleted: false,
+      date: currentDate()
+    };
+    updateTodos(id, body)
+      .then((updatedTodo) => {
+        const selectedTodos = todos?.filter((todo) => todo._id !== id);
+        setTodos(selectedTodos, updatedTodo);
+        console.log(updatedTodo);
+        history.push("/home");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setOpen(false);
   };
 
   const handleDelete = async (id) => {
-    try {
-      const url = 'http://localhost:5000/api/todos/' + id;
-      const response = await axios.delete(url, {
-        headers: {
-          'x-auth-token': localStorage.getItem('token'),
-        },
+    removeTodos(id)
+      .then(() => {
+        const selectedTodos = todos?.filter((todo) => todo._id !== id);
+        setTodos(selectedTodos);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-
-      console.log(response);
-      const selectedTodos = todos.filter((todo) => todo._id !== id);
-      setTodos(selectedTodos);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleCheck = async (id) => {
-    try {
-      console.log(id);
-      const url = 'http://localhost:5000/api/todos/' + id;
-      const response = await axios.patch(url);
-      console.log(response.data);
-      const selectedTodos = todos.filter((todo) => todo._id !== id);
-      setTodos(selectedTodos, response.data);
-    } catch (error) {}
+    completeTodos(id)
+      .then((updatedtodo) => {
+        const selectedTodos = todos?.filter((todo) => todo._id !== id);
+        setTodos(selectedTodos,updatedtodo);
+        history.push("/home");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -104,18 +104,25 @@ const Todo = ({ todo, setTodos, todos }) => {
             Description: {todo.description}
           </Typography>
           <Typography variant="body2" className={classes.moreStyle}>
+            {/* Added: {moment(todo.date).fromNow()} */}
             Added: {todo.date}
           </Typography>
         </div>
         <div>
           {todo.isCompleted === true ? (
-            <ButtonGroup size="small" aria-label="outlined primary button group">
+            <ButtonGroup
+              size="small"
+              aria-label="outlined primary button group"
+            >
               <Button onClick={() => handleDelete(todo._id)}>
                 <Delete color="secondary" />
               </Button>
             </ButtonGroup>
           ) : (
-            <ButtonGroup size="small" aria-label="outlined primary button group">
+            <ButtonGroup
+              size="small"
+              aria-label="outlined primary button group"
+            >
               <Button onClick={() => handleCheck(todo._id)}>
                 {todo.isCompleted ? (
                   <CheckCircle className={classes.isCompleted} />
@@ -133,10 +140,16 @@ const Todo = ({ todo, setTodos, todos }) => {
             </ButtonGroup>
           )}
           <div>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog
+              open={open}
+              onClose={() => handleClose()}
+              aria-labelledby="form-dialog-title"
+            >
               <DialogTitle id="form-dialog-title">Update the Todo</DialogTitle>
               <DialogContent>
                 <TextField
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
                   autoFocus
                   margin="dense"
                   id="title"
@@ -145,6 +158,8 @@ const Todo = ({ todo, setTodos, todos }) => {
                   fullWidth
                 />
                 <TextField
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
                   autoFocus
                   margin="dense"
                   id="description"
@@ -154,10 +169,10 @@ const Todo = ({ todo, setTodos, todos }) => {
                 />
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={() => handleCancel()} color="primary">
                   Cancel
                 </Button>
-                <Button onClick={handleClose(todo._id)} color="primary">
+                <Button onClick={() => handleClose(todo._id)} color="primary">
                   Update Todo
                 </Button>
               </DialogActions>
