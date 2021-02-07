@@ -1,0 +1,40 @@
+{
+  "name": "mern-todo",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "8.* || >= 10.*",
+    "npm run": ">=1"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1",
+    "husky": "^2.3.0",
+    "lint-staged": "^8.1.7",
+    "prettier": "^1.17.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{tsx,ts,js,scss}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "install": "npm run install:backend && npm run install:frontend",
+    "install:backend": "cd todo-backend-apis && npm install",
+    "install:frontend": "cd todo-frontend && npm install",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd todo-backend-apis && npm run start",
+    "start:frontend": "cd todo-frontend && npm run start",
+    "lint": "npm lint:backend && npm run lint:frontend",
+    "lint:backend": "cd todo-backend-apis && npm lint",
+    "lint:frontend": "cd todo-frontend && npm lint",
+    "test": "npm test:backend && npm run test:frontend",
+    "test:backend": "cd todo-backend-apis && npm test",
+    "test:frontend": "cd todo-frontend && npm test"
+  }
+}

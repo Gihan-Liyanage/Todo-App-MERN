@@ -48,8 +48,8 @@ export default function SignIn() {
 
       localStorage.setItem("token", response.data.token);
       if (localStorage.getItem("token") !== null) {
-        localStorage.setItem("loggedIn", true);
-        history.push("/");
+        await localStorage.setItem("loggedIn", true);
+        history.push("/home");
       }
     } catch (error) {
       console.log(error);

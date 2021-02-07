@@ -104,7 +104,6 @@ const Todo = ({ todo, setTodos, todos }) => {
             Description: {todo.description}
           </Typography>
           <Typography variant="body2" className={classes.moreStyle}>
-            {/* Added: {moment(todo.date).fromNow()} */}
             Added: {todo.date}
           </Typography>
         </div>
