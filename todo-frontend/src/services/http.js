@@ -1,5 +1,5 @@
 import axios from "axios";
-
+// Includes all the API calls related to todos
 export const http = {
   get: async path => {
     try {

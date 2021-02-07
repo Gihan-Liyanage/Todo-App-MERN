@@ -1,19 +1,12 @@
-const { Todo } = require("../models/todo");
-const auth = require("../middleware/authorize");
 const express = require("express");
 const Joi = require("joi");
+const { Todo } = require("../models/todo");
+const auth = require("../middleware/authorize");
 
 const todoRouter = express.Router();
 
 /**
- * @swagger
- *  /api/todos:
- *      get:
- *          summary: Return all todos
- *          response:
- *              '200':
- *              description: Returns all todos (active and completed) related to a specific user
- *
+ * Returns all todos corresponding to a particular user
  */
 todoRouter.get("/", auth, async (req, res) => {
   try {
@@ -25,11 +18,13 @@ todoRouter.get("/", auth, async (req, res) => {
   }
 });
 
-// Create a new todo
+/**
+ * Create a new todo
+ */
 todoRouter.post("/", auth, (req, res) => {
   /**
    * Data Validation using Joi.
-   * Joi is a powerful schema description language and data validator for JavaScript.
+   * Joi is a schema description language and data validator for JavaScript.
    */
   const schema = Joi.object({
     title: Joi.string().required(),
@@ -39,6 +34,7 @@ todoRouter.post("/", auth, (req, res) => {
     date: Joi.date()
   });
 
+  // Getting the error object from validation
   const { error } = schema.validate(req.body);
 
   if (error) {
@@ -59,7 +55,9 @@ todoRouter.post("/", auth, (req, res) => {
     .catch(err => res.status(500).send(err.message));
 });
 
-// Delete todos
+/**
+ * Deletes the todo with given Id
+ */
 todoRouter.delete("/:id", auth, async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id);
@@ -72,7 +70,9 @@ todoRouter.delete("/:id", auth, async (req, res) => {
   }
 });
 
-// Update todo
+/**
+ * Updating the todo. (replacing the existing todo object with the new one)
+ */
 todoRouter.put("/:id", auth, async (req, res) => {
   const schema = Joi.object({
     title: Joi.string().required(),
@@ -112,7 +112,10 @@ todoRouter.put("/:id", auth, async (req, res) => {
   }
 });
 
-// Change the status of the Todo (isCompleted)
+/**
+ * Change the status of the Todo (isCompleted)
+ */
+
 todoRouter.patch("/:id", async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id);

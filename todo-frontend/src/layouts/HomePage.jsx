@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { Tabs, Tab, AppBar } from '@material-ui/core';
-import Completed from '../components/Completed';
-import TodoList from '../components/TodoList';
-import TodoHistory from './TodoHistory';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import { Tabs, Tab, AppBar } from "@material-ui/core";
 
-import { getTodos } from '../services/services';
+import Completed from "../components/Completed";
+import TodoList from "../components/TodoList";
+import TodoHistory from "./TodoHistory";
+import { getTodos } from "../services/services";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +33,7 @@ export default function HomePage() {
       setTodos(todos);
     });
     console.log(todos);
+  // eslint-disable-next-line
   }, []);
 
   const handleChange = (event, newValue) => {
@@ -44,16 +43,13 @@ export default function HomePage() {
   const logout = (event) => {
     event.preventDefault();
     localStorage.clear();
-    history.push('/signin');
+    history.push("/signin");
   };
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6" className={classes.title}>
             Ascentic : ToDo
           </Typography>

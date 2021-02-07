@@ -10,6 +10,7 @@ export default function TodoHistory({ todos }) {
   useEffect(() => {
     setCompletedNo(todos.filter((todo) => todo.isCompleted === true).length);
     setActiveNo(todos.filter((todo) => todo.isCompleted === false).length);
+    // eslint-disable-next-line
   }, []);
 
   return (

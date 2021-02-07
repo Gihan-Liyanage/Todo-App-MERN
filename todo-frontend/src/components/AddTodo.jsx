@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FormControl, Container, TextField, Button } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
-import { addTodos, updateTodos } from "../services/services";
+import { addTodos } from "../services/services";
 
 export default function AddTodo({ todos, setTodos }) {
   const [title, setTitle] = useState("");

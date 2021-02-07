@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
-import { Redirect, Route, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -45,7 +45,6 @@ export default function SignIn() {
         password,
       });
       console.log(response);
-
       localStorage.setItem("token", response.data.token);
       if (localStorage.getItem("token") !== null) {
         await localStorage.setItem("loggedIn", true);

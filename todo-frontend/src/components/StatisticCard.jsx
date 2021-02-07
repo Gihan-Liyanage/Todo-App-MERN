@@ -14,6 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
+// Card used to display active and completed number of todos
 export default function StatisticCard(props) {
   const classes = useStyles();
   return (

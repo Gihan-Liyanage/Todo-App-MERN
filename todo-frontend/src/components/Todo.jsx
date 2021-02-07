@@ -45,7 +45,7 @@ const Todo = ({ todo, setTodos, todos }) => {
   const handleCancel = () => {
     setOpen(false);
   };
-
+  // Update function
   const handleClose = (id) => {
     const body = {
       title: title,
@@ -81,7 +81,7 @@ const Todo = ({ todo, setTodos, todos }) => {
     completeTodos(id)
       .then((updatedtodo) => {
         const selectedTodos = todos?.filter((todo) => todo._id !== id);
-        setTodos(selectedTodos,updatedtodo);
+        setTodos(selectedTodos, updatedtodo);
         history.push("/home");
       })
       .catch((error) => {
@@ -104,7 +104,6 @@ const Todo = ({ todo, setTodos, todos }) => {
             Description: {todo.description}
           </Typography>
           <Typography variant="body2" className={classes.moreStyle}>
-            {/* Added: {moment(todo.date).fromNow()} */}
             Added: {todo.date}
           </Typography>
         </div>
@@ -133,12 +132,13 @@ const Todo = ({ todo, setTodos, todos }) => {
               <Button onClick={handleOnUpdateClick}>
                 <Create color="primary" />
               </Button>
-              {/* <UpdateWindow isOpen={isOpen}/> */}
               <Button onClick={() => handleDelete(todo._id)}>
                 <Delete color="secondary" />
               </Button>
             </ButtonGroup>
           )}
+
+          {/* Update Component */}
           <div>
             <Dialog
               open={open}
