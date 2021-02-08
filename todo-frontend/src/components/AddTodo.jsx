@@ -15,7 +15,7 @@ export default function AddTodo({ todos, setTodos }) {
     };
     addTodos(body)
       .then((todo) => {
-        setTodos(todos, todo);
+        setTodos(prev =>[todos, todo]);
       })
       .catch((error) => {
         console.log(error);

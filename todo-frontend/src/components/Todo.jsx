@@ -56,7 +56,7 @@ const Todo = ({ todo, setTodos, todos }) => {
     updateTodos(id, body)
       .then((updatedTodo) => {
         const selectedTodos = todos?.filter((todo) => todo._id !== id);
-        setTodos(selectedTodos, updatedTodo);
+        setTodos(prev=>[...selectedTodos, updatedTodo]);
         console.log(updatedTodo);
         history.push("/home");
       })
@@ -81,7 +81,7 @@ const Todo = ({ todo, setTodos, todos }) => {
     completeTodos(id)
       .then((updatedtodo) => {
         const selectedTodos = todos?.filter((todo) => todo._id !== id);
-        setTodos(selectedTodos, updatedtodo);
+        setTodos(prev =>[...selectedTodos, updatedtodo]);
         history.push("/home");
       })
       .catch((error) => {
