@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, ButtonGroup, Button } from "@material-ui/core";
 import { Create, Delete, CheckCircle } from "@material-ui/icons";
@@ -33,7 +32,6 @@ const useStyles = makeStyles({
 
 const Todo = ({ todo, setTodos, todos }) => {
   const classes = useStyles();
-  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(todo.title);
   const [description, setDescription] = useState(todo.description);
@@ -58,7 +56,6 @@ const Todo = ({ todo, setTodos, todos }) => {
         const selectedTodos = todos?.filter((todo) => todo._id !== id);
         setTodos(prev=>[...selectedTodos, updatedTodo]);
         console.log(updatedTodo);
-        history.push("/home");
       })
       .catch((error) => {
         console.log(error);
@@ -82,7 +79,6 @@ const Todo = ({ todo, setTodos, todos }) => {
       .then((updatedtodo) => {
         const selectedTodos = todos?.filter((todo) => todo._id !== id);
         setTodos(prev =>[...selectedTodos, updatedtodo]);
-        history.push("/home");
       })
       .catch((error) => {
         console.log(error);
