@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+# ToDo - Frontend 
+The frontend application of the todo app is developed with ReactJS which is a popular javascript library for UI develop. The initial project setup was generated using Facebook's create-react-app tool.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```sh
+$ npx create-react-app my-app
+$ cd my-app
+$ npm start
+```
 
-## Available Scripts
+Important factors regarding the frontend development can be listed down as follows.
 
-In the project directory, you can run:
+# Key Factors
 
-### `npm start`
+- #### State Management
+State management of the project was done using react hooks (by maintaining root state). For larger scale applications Context API and Redux would be more suitable. For this application, browser's local storage was used for storing tokens. And all the routes are protected so that unregisrered users cannot access.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- #### Backend Communication
+Axios, A promise based http client was used to communicate with backend. (Node Js APIs). Better alternatives such as Fatch API, Redux-Saga and GraphQL can be used for large scale projects.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- #### UI Design
+Material UI was used as major source of react components for the UI. Those components were modified according to the requirements.
 
-### `npm test`
+- #### Code Structure
+An attempts was taken to maintain best coding practices throughout the project. Components were decentralized as much as possible and component reusability was established. As a feedback was received in the first interview to learn about `Solid Principals`, an attempt was made to implement `Dependency Inversion Principle` in the project. (Please refer services directory). `ESLint` with `Prettier` were used to maintain airbnb coding style.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Suggestions for Further Improvements
+- Using better state management machanisms such as Context API or Redux.
+- The current application doesn't consist of proper notification mechanism to user. `react-notify-toast` would be an ideal module to implement this functionality. 
+- Further UI and UX improvements.
